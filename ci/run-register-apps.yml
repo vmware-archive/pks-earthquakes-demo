@@ -8,7 +8,7 @@ image_resource:
     tag: '8-jdk'
 
 inputs:
-- name: scdf-demo
+- name: pks-earthquakes-demo
 
 outputs:
 - name: run-register-apps-output
