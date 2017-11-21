@@ -14,4 +14,4 @@ outputs:
 - name: run-register-apps-output
 
 run:
-  path: scdf-demo/ci/run-register-apps.sh
+  path: pks-earthquakes-demo/ci/run-register-apps.sh

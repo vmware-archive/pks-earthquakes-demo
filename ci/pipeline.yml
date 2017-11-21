@@ -83,7 +83,7 @@ jobs:
         credentials: {{ELASTIC_SEARCH_CREDENTIALS}}
   - put: pcf-env-params
     params:
-      manifest: scdf-demo/ci/dataflow-server-manifest.yml
+      manifest: pks-earthquakes-demo/ci/dataflow-server-manifest.yml
       environment_variables:
         SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_URL: {{CF_API}}
         SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_ORG: {{CF_ORG}}
@@ -99,7 +99,7 @@ jobs:
         SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: "false"
         MAVEN_REMOTE_REPOSITORIES_REPO1_URL: https://repo.spring.io/libs-snapshot
   - task: run-register-apps
-    file: scdf-demo/ci/run-register-apps.yml
+    file: pks-earthquakes-demo/ci/run-register-apps.yml
     params:
       <<: *cf-params
 
