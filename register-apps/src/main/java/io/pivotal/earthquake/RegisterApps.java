@@ -68,7 +68,7 @@ public class RegisterApps {
         DataFlowTemplate dataFlowTemplate = new DataFlowTemplate(serverUri, _restTemplate);
 
         AppRegistryOperations appRegistryOperations = dataFlowTemplate.appRegistryOperations();
-        appRegistryOperations.register("nlp", ApplicationType.processor,
+        appRegistryOperations.register("elastic-search", ApplicationType.sink,
                 ELASTIC_SEARCH_SINK_URI, null, true);
 
         Resource resource = new ClassPathResource("appStarters.properties");
