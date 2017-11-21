@@ -1,0 +1,121 @@
+---
+resource_types:
+
+- name: maven-resource
+  type: docker-image
+  source:
+    repository: pivotalpa/maven-resource
+    tag: latest
+
+- name: cf-cli-resource
+  type: docker-image
+  source:
+    repository: pivotalpa/cf-cli-resource
+    tag: latest
+
+resources:
+
+- name: pks-earthquakes-demo
+  type: git
+  source:
+    uri: https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo
+    branch: master
+
+- name: scdf-server
+  type: maven-resource
+  source:
+    url: https://repo.spring.io/libs-release
+    artifact: org.springframework.cloud:spring-cloud-dataflow-server-cloudfoundry:jar::1.2.4.RELEASE
+
+- name: pcf-env
+  type: cf-cli-resource
+  source:
+    api: {{CF_API}}
+    username: {{CF_USER}}
+    password: {{CF_PASSWORD}}
+    skip_cert_check: true
+    org: {{CF_ORG}}
+    space: {{CF_SPACE}}
+
+- name: pcf-env-params
+  type: cf
+  source:
+    api: {{CF_API}}
+    username: {{CF_USER}}
+    password: {{CF_PASSWORD}}
+    organization: {{CF_ORG}}
+    space: {{CF_SPACE}}
+    skip_cert_check: true
+
+cf-params: &cf-params
+  CF_API: {{CF_API}}
+  CF_SKIP_SSL: true
+  CF_USER: {{CF_USER}}
+  CF_PASSWORD: {{CF_PASSWORD}}
+  CF_ORG: {{CF_ORG}}
+  CF_SPACE: {{CF_SPACE}}
+
+jobs:
+
+- name: deploy-pks-earthquakes-demo
+  plan:
+  - aggregate:
+    - get: pks-earthquakes-demo
+    - get: scdf-server
+  - put: cf-create-services
+    resource: pcf-env
+    params:
+      commands:
+      - command: create-service
+        org: {{CF_ORG}}
+        space: {{CF_SPACE}}
+        service: {{DB_SERVICE_NAME}}
+        plan: {{DB_SERVICE_PLAN}}
+        service_instance: scdf-mysql
+      - command: create-service
+        org: {{CF_ORG}}
+        space: {{CF_SPACE}}
+        service: {{RABBIT_SERVICE_NAME}}
+        plan: {{RABBIT_SERVICE_PLAN}}
+        service_instance: scdf-rabbit
+      - command: create-user-provided-service
+        service_instance: elastic-search
+        credentials: {{ELASTIC_SEARCH_CREDENTIALS}}
+  - put: pcf-env-params
+    params:
+      manifest: scdf-demo/ci/dataflow-server-manifest.yml
+      environment_variables:
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_URL: {{CF_API}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_ORG: {{CF_ORG}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_SPACE: {{CF_SPACE}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_DOMAIN: {{CF_DOMAIN}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_USERNAME: {{CF_USER}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_PASSWORD: {{CF_PASSWORD}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_SKIP_SSL_VALIDATION: {{CF_SKIP_SSL}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_BUILDPACK: {{CF_BUILDPACK}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_MEMORY: "1024"
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_SERVICES: scdf-rabbit,elastic-search
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_APP_NAME_PREFIX: {{CF_APP_NAME_PREFIX}}
+        SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: "false"
+        MAVEN_REMOTE_REPOSITORIES_REPO1_URL: https://repo.spring.io/libs-snapshot
+  - task: run-register-apps
+    file: scdf-demo/ci/run-register-apps.yml
+    params:
+      <<: *cf-params
+
+- name: tear-down-pks-earthquakes-demo
+  plan:
+  - put: cf-delete-everything
+    resource: pcf-env
+    params:
+      commands:
+      - command: delete
+        app_name: dataflow-server
+        delete_mapped_routes: true
+        delete_mapped_routes: true
+      - command: delete-service
+        service_instance: scdf-mysql
+      - command: delete-service
+        service_instance: scdf-rabbit
+      - command: delete-service
+        service_instance: elastic-search

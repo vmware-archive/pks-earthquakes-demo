@@ -1,0 +1,24 @@
+---
+# Target PCF environment where you will be running the demo
+CF_API: REPLACE_ME
+CF_USER: REPLACE_ME
+CF_PASSWORD: REPLACE_ME
+CF_ORG: REPLACE_ME
+CF_SPACE: REPLACE_ME
+CF_SKIP_SSL: REPLACE_ME  # true or false
+
+# MySQL Service used by the SCDF Server
+DB_SERVICE_NAME: REPLACE_ME  # e.g. p-mysql
+DB_SERVICE_PLAN: REPLACE_ME  # e.g. 100mb-dev
+
+# RabbitMQ Service used by the SCDF Server
+RABBIT_SERVICE_NAME: REPLACE_ME # e.g. p-rabbitmq
+RABBIT_SERVICE_PLAN: REPLACE_ME # e.g. standard
+
+# Elastic Search Service used by the SCDF Sink
+ELASTIC_SEARCH_CREDENTIALS: REPLACE_ME # e.g. '{"url":"tcp.apps.pcf.com:1500"}'
+
+# Parameters specific to the deployed stream apps
+CF_DOMAIN: REPLACE_ME          # The domain used by deployed apps in your cf env (e.g. cfapps.io)
+CF_BUILDPACK: REPLACE_ME       # The name of the java buildpack used by your environment
+CF_APP_NAME_PREFIX: REPLACE_ME # A unique identifier that will prefix the name of your deployed SCDF apps
