@@ -34,7 +34,7 @@ So for the demo11 environment, you can access the services through the following
 ## Running SCDF Streams
 
 Log into Apps Manager. In the **pks-eqarthquakes-demo** space, inspect the services. In addition to RabbitMQ and MySQL, we have a user-provided service that will allow our apps to bind to the elastic search deployment that is exposed through CF routing. Click on the user-provided service and select configuration:
-<br><img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/elastic-service.png" width="30%"/>
+<br><img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/user-provided-service.png" width="30%"/>
 
 Now, let's bring up the Spring Cloud Data Flow dashboard. It can be accessed at the following URLs:<br>
 **Demo11**: https://scdf-demo11.cfapps.io/dashboard<br>
