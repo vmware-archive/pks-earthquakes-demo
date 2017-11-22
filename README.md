@@ -63,9 +63,17 @@ If you need to reset the data from a previous run, you can use the **createIndex
 `./createIndex.sh elastic-search-demo11.apps.pcf.corby.cc`<br>
 This script can be safely executed at any time.
 
-Log into the Kibana UI, at the published endpoint (e.g. in Demo11 you go to http://kibana-demo11.apps.pcf.corby.cc/). Select Dashboards from the left-side menu, and click on the Earthquakes dashboard.
+Log into the Kibana UI, at the published endpoint (e.g. in Demo11 you go to http://kibana-demo11.apps.pcf.corby.cc/). Select Dashboards from the left-side menu, and click on the Earthquake dashboard.
 
 If you don't see Dashboard options, you will need to create the earthquake dashboard. To do this, click on the Management left-side menu option, and select Index Patterns from the top-side menu. In the **Index name or pattern** field, enter **earthquakes**
 <br><img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/index-patterns.png" width="50%"/>
 
-Click the create button. Now from the Management screen, select Saved Objects from the top-side menu. Click the Import button in the top-right, and upload the earthquakes-dashboard.json file from this repo. Now you can go to the Dashboard and select the Earthquakes dashboard.
+Click the create button. Now from the Management screen, select Saved Objects from the top-side menu. Click the Import button in the top-right, and upload the earthquakes-dashboard.json file from this repo. Now you can go to the Dashboard and select the Earthquake dashboard.
+
+You will now see a live view of the data that is being ingested by Spring Cloud Dataflow.
+<img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/header-image.png" width="50%">
+
+To swich to an auto-update animation, click on the clock icon at the top of the page, and select **Auto-refresh**
+<img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/auto-refresh.png" width="25%">
+
+Select an update interval of 5 seconds, sit back, and take a break.
