@@ -59,12 +59,13 @@ Now that the stream is deployed, you will see managed microservices running for 
 
 ## Visualizing the Data
 
-If you need to reset the data from a previous run, you can use the **createIndex.sh** script in this repo. It takes one argument, which is the Elastic Search API endpoint. For example, to reset the data in the Demo11 environment, you would run:
-`./createIndex.sh elastic-search-demo11.apps.pcf.corby.cc`
-This script can be safely executed at any time.<br?
+If you need to reset the data from a previous run, you can use the **createIndex.sh** script in this repo. It takes one argument, which is the Elastic Search API endpoint. For example, to reset the data in the Demo11 environment, you would run:<br>
+`./createIndex.sh elastic-search-demo11.apps.pcf.corby.cc`<br>
+This script can be safely executed at any time.
 
-Log into the Kibana UI, at the published endpoint (e.g. in Demo11 you go to http://kibana-demo11.apps.pcf.corby.cc/). 
+Log into the Kibana UI, at the published endpoint (e.g. in Demo11 you go to http://kibana-demo11.apps.pcf.corby.cc/). Select Dashboards from the left-side menu, and click on the Earthquakes dashboard.
 
 If you don't see Dashboard options, you will need to create the earthquake dashboard. To do this, click on the Management left-side menu option, and select Index Patterns from the top-side menu. In the **Index name or pattern** field, enter **earthquakes**
 <br><img src="https://github.com/Pivotal-Field-Engineering/pks-earthquakes-demo/blob/master/docs/index-patterns.png" width="50%"/>
 
+Click the create button. Now from the Management screen, select Saved Objects from the top-side menu. Click the Import button in the top-right, and upload the earthquakes-dashboard.json file from this repo. Now you can go to the Dashboard and select the Earthquakes dashboard.
